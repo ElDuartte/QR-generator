@@ -21,17 +21,31 @@
         input,
         button {
             padding: 10px;
-            margin: 10px;
             font-size: 16px;
         }
 
-        .qrcode-container{
+        .qrcode-container {
             justify-items: center;
         }
 
         #download {
             display: none;
             /* Hidden by default */
+            border: 5px solid;
+            border-image: conic-gradient(from var(--angle), red, yellow, lime, aqua, blue, magenta, red) 1;
+            animation: 1s rotate linear infinite;
+        }
+
+        @keyframes rotate {
+            to {
+                --angle: 360deg;
+            }
+        }
+
+        @property --angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -40,12 +54,12 @@
 <body>
     <h2>QR Code Generator</h2>
     <input type="text" id="text" placeholder="Enter text or URL">
-    <button onclick="generateQR()">Generate QR Code</button>
+    <button onclick="generateQR()">Generate</button>
     <br>
-    <div id="qrcode"  class="qrcode-container"></div>
+    <div id="qrcode" class="qrcode-container"></div>
     <br>
     <a id="download" download="qrcode.png">
-        <button>Download QR Code</button>
+        <button>Download</button>
     </a>
 
     <script>
