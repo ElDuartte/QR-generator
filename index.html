@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,38 +13,69 @@
             background-color: #696969;
             color: #fff;
         }
+
         #qrcode {
             margin-top: 20px;
         }
-        input, button {
+
+        input,
+        button {
             padding: 10px;
             margin: 10px;
+            font-size: 16px;
         }
+
         .qrcode-container{
             justify-items: center;
+        }
+
+        #download {
+            display: none;
+            /* Hidden by default */
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
+
 <body>
     <h2>QR Code Generator</h2>
     <input type="text" id="text" placeholder="Enter text or URL">
     <button onclick="generateQR()">Generate QR Code</button>
-    <div id="qrcode" class="qrcode-container"></div>
+    <br>
+    <div id="qrcode"  class="qrcode-container"></div>
+    <br>
+    <a id="download" download="qrcode.png">
+        <button>Download QR Code</button>
+    </a>
 
     <script>
         function generateQR() {
             let text = document.getElementById("text").value;
             let qrContainer = document.getElementById("qrcode");
+            let downloadBtn = document.getElementById("download");
+
             qrContainer.innerHTML = ""; // Clear previous QR code
+            downloadBtn.style.display = "none"; // Hide download button initially
+
             if (text.trim() !== "") {
-                new QRCode(qrContainer, {
+                let qr = new QRCode(qrContainer, {
                     text: text,
-                    width: 200,
-                    height: 200
+                    width: 400,
+                    height: 400
                 });
+
+                // Wait for QR code to generate, then enable download
+                setTimeout(() => {
+                    let qrCanvas = qrContainer.querySelector("canvas");
+                    if (qrCanvas) {
+                        let qrImage = qrCanvas.toDataURL("image/png");
+                        downloadBtn.href = qrImage;
+                        downloadBtn.style.display = "inline-block"; // Show download button
+                    }
+                }, 300);
             }
         }
     </script>
 </body>
+
 </html>
